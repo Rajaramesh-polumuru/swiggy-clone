@@ -8,14 +8,14 @@ import UserActionMenu from "@/components/user-action-menu";
 import Image from "next/image";
 import { FC } from "react";
 
-const TopMenu: FC<any> = () => {
+const TopMenu: FC<any> = ({ handleSearchQueryChange }) => {
   return (
     <TopNavWrapper>
       <LogoWrapper>
         <Image width={32} height={32} alt="Logo" src={"/logo.png"} />
         <LogoTextWrapper>Restaurants</LogoTextWrapper>
       </LogoWrapper>
-      <SearchBar />
+      <SearchBar handleSearchQueryChange={handleSearchQueryChange} />
       <UserActionMenu />
     </TopNavWrapper>
   );

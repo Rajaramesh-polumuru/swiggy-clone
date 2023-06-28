@@ -35,10 +35,14 @@ const SearchButtonWrapper = styled.button`
     scale: 0.98;
   }
 `;
-const SearchBar: FC<any> = () => {
+const SearchBar: FC<any> = ({ handleSearchQueryChange }) => {
   return (
     <SearchBarWrapper>
-      <SearchInput type="text" placeholder="Search Restaurants..." />
+      <SearchInput
+        type="text"
+        placeholder="Search Restaurants..."
+        onChange={handleSearchQueryChange}
+      />
       <SearchButtonWrapper>
         <Image src={"/search-icon.svg"} height={24} width={24} alt="Search" />
       </SearchButtonWrapper>

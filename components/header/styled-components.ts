@@ -7,6 +7,7 @@ export const HeaderWrapper = styled.div`
   display: flex;
   justify-content: end;
   padding: 16px 24px;
+  height: fit-content;
 `;
 export const RightMenuWrapper = styled.div`
   display: flex;
