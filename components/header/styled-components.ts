@@ -14,4 +14,17 @@ export const RightMenuWrapper = styled.div`
   gap: 16px;
 `;
 
-export const MenuItemWrapper = styled.div``;
+export const MenuItemWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 16px;
+  &:hover {
+    border-radius: 8px;
+    background-color: var(--light-font-color);
+  }
+`;
+
+export const MenuItemText = styled.div``;

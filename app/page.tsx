@@ -1,8 +1,9 @@
 "use client";
 import { restaurantData } from "@/lib/dummy-data";
 import { RestaurantData } from "@/app/types";
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import Header from "@/components/header";
+import { auth } from "@/firebase/app";
 import {
   BodyWrapper,
   LayoutWrapper,
@@ -14,6 +15,8 @@ import { NoResDataWrapper } from "@/components/home/styled-components";
 import { applyFilters } from "@/utils/filter-data";
 import RestaurantsListComponent from "@/components/restaurant-list";
 import { mapRestaurantData } from "@/utils/restaurant-mapper";
+import { redirect, useRouter } from "next/navigation";
+import Loading from "@/components/loading";
 
 export default function RestaurantList() {
   const formattedData: RestaurantData[] = useMemo(
@@ -22,9 +25,11 @@ export default function RestaurantList() {
   );
   const [filteredData, setFilteredData] =
     useState<RestaurantData[]>(formattedData);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchFilteredData, handleSearchQueryChange] =
     useSearchData(formattedData);
   const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
   const cuisinesArray = useMemo(
     () =>
       Array.from(new Set(formattedData?.map((item) => item.cuisines).flat())),
@@ -33,6 +38,19 @@ export default function RestaurantList() {
   const [filtersList, setFiltersList] = useState<{ [key: string]: string[] }>(
     {}
   );
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (!user) {
+        router.push("/auth");
+      } else {
+        setIsLoading(false);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [router]);
 
   const filters = useMemo(
     () => ({
@@ -66,6 +84,7 @@ export default function RestaurantList() {
     [formattedData, filtersList]
   );
 
+  if (isLoading) return <Loading />;
   return (
     <LayoutWrapper>
       <Header />
